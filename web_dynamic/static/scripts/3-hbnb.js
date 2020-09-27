@@ -1,4 +1,4 @@
-jQuery.getJSON('http://192.168.33.10:5001/api/v1/status/', function (data, textStatus) {
+jQuery.getJSON('http://0.0.0.0:5001/api/v1/status/', function (data, textStatus) {
   if (data.status === 'OK') {
     $('DIV#api_status').addClass('available');
   }
@@ -6,7 +6,7 @@ jQuery.getJSON('http://192.168.33.10:5001/api/v1/status/', function (data, textS
 
 $.post({
   method: 'POST',
-  url: 'http://192.168.33.10:5001/api/v1/places_search/',
+  url: 'http://0.0.0.0:5001/api/v1/places_search/',
   data: '{}',
   contentType: 'application/json',
   // dataType: 'json',
@@ -18,7 +18,7 @@ $.post({
       const pluralBath = place.number_bathrooms > 1 ? 's' : '';
       $('SECTION.places').append(`
       <article>
-        <div class="title">
+        <div class="title_box">
           <h2>${place.name}</h2>
           <div class="price_by_night">
           $${place.price_by_night}
