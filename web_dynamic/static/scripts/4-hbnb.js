@@ -1,4 +1,4 @@
-jQuery.getJSON('http://192.168.33.10:5001/api/v1/status/', function (data, textStatus) {
+$.getJSON('http://192.168.33.10:5001/api/v1/status/', function (data, textStatus) {
   if (data.status === 'OK') {
     $('DIV#api_status').addClass('available');
   }
@@ -70,7 +70,7 @@ $().ready(function () {
     $.post({
       method: 'POST',
       url: 'http://192.168.33.10:5001/api/v1/places_search/',
-      data: JSON.stringify({amenities: Object.keys(amenities)}),
+      data: JSON.stringify({ amenities: Object.keys(amenities) }),
       contentType: 'application/json',
       // dataType: 'json',
       success: function (data, textStatus, jqXHR) {
