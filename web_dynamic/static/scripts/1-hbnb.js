@@ -1,22 +1,19 @@
 $().ready(function () {
   $('INPUT').click(function () {
-    const checked = {};
-    const check = $('INPUT:checked');
-    let temp = $('INPUT:checked');
-    let i = 0;
-
-    for (; i < check.length; i++) {
-      checked[temp.attr('data-id')] = temp.attr('data-name');
-      temp = temp.slice(1);
-    }
-
+    const amenities = {};
+    let checked = $('INPUT:checked');
+    let i;
     let names = '';
-    for (const key in checked) {
-      if (names === '') {
-        names = names + checked[key];
-      } else {
-        names = names + ', ' + checked[key];
+    let key;
+
+    for (i = checked.length; i; i--) {
+      key = checked.attr('data-id');
+      amenities[key] = checked.attr('data-name');
+      checked = checked.slice(1);
+      if (names) {
+        names = names + ', ';
       }
+      names = names + amenities[key];
     }
 
     $('DIV.amenities H4').text(names);
