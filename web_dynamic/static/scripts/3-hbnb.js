@@ -4,34 +4,61 @@ jQuery.getJSON('http://192.168.33.10:5001/api/v1/status/', function (data, textS
   }
 });
 
-$.post({method: 'POST', url: 'http://192.168.33.10:5001/api/v1/places_search/', data: '{}', contentType: 'application/json', dataType: 'json', success: function (data, textStatus, jqXHR) {
-  console.log(data);
-  for (let i = 0; i < data.length; i++) {
-    console.log(data[i]);
-    place = data[i];
-    $('SECTION.places').append('<article><div class=""><h2>' + place.name + '</h2><div class="price_by_night">$' + place.price_by_night + '</div></div><div class="information"><div class="max_guest">' + place.max_guest + ' Guest' + ((place.max_guest != 1) ? 's' : '') + '</div><div class="number_rooms">' + place.number_rooms + 'Bedroom' +  ((place.number_rooms != 1) ? 's' : '') + '</div><div class="number_bathrooms">' + place.number_bathrooms + 'Bathroom' + ((place.number_bathrooms != 1) ? 's' : '') + '</div></div><div class="description">' + place.description + '</div></article>');
+$.post({
+  method: 'POST',
+  url: 'http://192.168.33.10:5001/api/v1/places_search/',
+  data: '{}',
+  contentType: 'application/json',
+  // dataType: 'json',
+  success: function (data, textStatus, jqXHR) {
+    for (let i = 0; i < data.length; i++) {
+      const place = data[i];
+      const pluralGuest = place.max_guest > 1 ? 's' : '';
+      const pluralBed = place.number_rooms > 1 ? 's' : '';
+      const pluralBath = place.number_bathrooms > 1 ? 's' : '';
+      $('SECTION.places').append(`
+      <article>
+        <div class="title">
+          <h2>${place.name}</h2>
+          <div class="price_by_night">
+          $${place.price_by_night}
+            </div>
+          </div>
+          <div class="information">
+            <div class="max_guest">
+              ${place.max_guest} Guest${pluralGuest}
+            </div>
+            <div class="number_rooms">
+              ${place.number_rooms} Bedroom${pluralBed}
+            </div>
+            <div class="number_bathrooms">
+            ${place.number_bathrooms} Bathroom${pluralBath}
+            </div>
+          </div>
+          <div class="description">
+          ${place.description}
+          </div>
+        </article>'`);
+    }
   }
-}});
+});
 
 $().ready(function () {
   $('INPUT').click(function () {
-    const checked = {};
-    const check = $('INPUT:checked');
-    let temp = $('INPUT:checked');
-    let i = 0;
-
-    for (; i < check.length; i++) {
-      checked[temp.attr('data-id')] = temp.attr('data-name');
-      temp = temp.slice(1);
-    }
-
+    const amenities = {};
+    let checked = $('INPUT:checked');
+    let i;
     let names = '';
-    for (const key in checked) {
-      if (names === '') {
-        names = names + checked[key];
-      } else {
-        names = names + ', ' + checked[key];
+    let key;
+
+    for (i = checked.length; i; i--) {
+      key = checked.attr('data-id');
+      amenities[key] = checked.attr('data-name');
+      checked = checked.slice(1);
+      if (names) {
+        names = names + ', ';
       }
+      names = names + amenities[key];
     }
 
     $('DIV.amenities H4').text(names);
