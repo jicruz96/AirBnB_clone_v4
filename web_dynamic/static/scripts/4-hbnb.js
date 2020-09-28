@@ -1,4 +1,4 @@
-$.getJSON('http://192.168.33.10:5001/api/v1/status/', function (data, textStatus) {
+$.getJSON('http://0.0.0.0:5001/api/v1/status/', function (data, textStatus) {
   if (data.status === 'OK') {
     $('DIV#api_status').addClass('available');
   }
@@ -6,7 +6,7 @@ $.getJSON('http://192.168.33.10:5001/api/v1/status/', function (data, textStatus
 
 $.post({
   method: 'POST',
-  url: 'http://192.168.33.10:5001/api/v1/places_search/',
+  url: 'http://0.0.0.0:5001/api/v1/places_search/',
   data: '{}',
   contentType: 'application/json',
   // dataType: 'json',
@@ -69,7 +69,7 @@ $().ready(function () {
     $('SECTION.places').html('');
     $.post({
       method: 'POST',
-      url: 'http://192.168.33.10:5001/api/v1/places_search/',
+      url: 'http://0.0.0.0:5001/api/v1/places_search/',
       data: JSON.stringify({ amenities: Object.keys(amenities) }),
       contentType: 'application/json',
       // dataType: 'json',
